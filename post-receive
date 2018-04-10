@@ -1,0 +1,13 @@
+#!/bin/bash
+git log -1 --stat > /home/sp/hooks/temp
+fp="/home/sp/hooks/temp"
+commit=$(sed '1q;d' $fp)
+auth=$(sed '2q;d' $fp)
+disc=$(sed -e '1,4d' <$fp )
+rm $fp
+url=$(cat ${GIT_DIR}/hooks/url)
+#url=$(<GIT_DIR/hooks/url)
+python /home/sp/hooks/wbhook.py "$commit" "$auth" "$disc" "$url"
+#/home/git/hooks/git_push.sh
+`git rev-parse --git-dir`/hooks/deploy.sh
+
